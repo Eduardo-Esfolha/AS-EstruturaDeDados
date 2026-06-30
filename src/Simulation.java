@@ -1,5 +1,14 @@
 import datastructures.*;
 import game.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Simulation {
     // Cores ANSI para o Terminal
@@ -12,7 +21,31 @@ public class Simulation {
     public static final String CYAN = "\u001B[36m";
     public static final String WHITE = "\u001B[37m";
 
+    private static final List<String> consoleBuffer = new ArrayList<>();
+
     public static void main(String[] args) throws Exception {
+        // Redireciona a saída padrão para capturar o buffer de texto das screenshots
+        System.setOut(new PrintStream(new OutputStream() {
+            private java.io.ByteArrayOutputStream lineBuffer = new java.io.ByteArrayOutputStream();
+            private PrintStream original = System.out;
+
+            @Override
+            public void write(int b) throws IOException {
+                original.write(b);
+                if (b == '\n') {
+                    byte[] bytes = lineBuffer.toByteArray();
+                    String str = new String(bytes, java.nio.charset.StandardCharsets.UTF_8);
+                    if (str.endsWith("\r")) {
+                        str = str.substring(0, str.length() - 1);
+                    }
+                    consoleBuffer.add(str);
+                    lineBuffer.reset();
+                } else if (b != '\r') {
+                    lineBuffer.write(b);
+                }
+            }
+        }, true, "UTF-8"));
+
         System.out.println("Iniciando Simulação Automatizada do Jogo para Captura de Screenshots...");
         Thread.sleep(1000);
 
@@ -345,12 +378,159 @@ public class Simulation {
     private static void limparTela() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+        consoleBuffer.clear(); // Limpa o buffer para o próximo print
     }
 
     private static void capture(String name) throws Exception {
-        System.out.println("Capturando tela: " + name + "...");
-        ProcessBuilder pb = new ProcessBuilder("powershell.exe", "-ExecutionPolicy", "Bypass", "-File", "take_screenshot.ps1", name);
-        Process p = pb.start();
-        p.waitFor();
+        // Renderiza a imagem programática perfeita
+        renderTerminalImage(name);
+
+        // Executa o script do PowerShell como fallback secundário
+        try {
+            ProcessBuilder pb = new ProcessBuilder("powershell.exe", "-ExecutionPolicy", "Bypass", "-File", "take_screenshot.ps1", name);
+            Process p = pb.start();
+            p.waitFor();
+        } catch (Exception e) {
+            // Ignora silenciosamente falhas no screenshot do OS em ambientes sem interface
+        }
+    }
+
+    private static void renderTerminalImage(String name) {
+        if (consoleBuffer.isEmpty()) {
+            return;
+        }
+
+        // Remove a última linha se for a própria mensagem de captura para não poluir
+        List<String> lines = new ArrayList<>(consoleBuffer);
+        if (!lines.isEmpty() && lines.get(lines.size() - 1).contains("Capturando tela")) {
+            lines.remove(lines.size() - 1);
+        }
+
+        int numLines = lines.size();
+        int charHeight = 22;
+        int topBarHeight = 40;
+        int paddingX = 20;
+        int paddingY = 20;
+        
+        int width = 950;
+        int height = topBarHeight + paddingY * 2 + numLines * charHeight;
+
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = img.createGraphics();
+
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        // Fundo do terminal
+        g.setColor(new Color(0x18, 0x18, 0x24));
+        g.fillRect(0, 0, width, height);
+
+        // Barra de título do terminal
+        g.setColor(new Color(0x21, 0x21, 0x30));
+        g.fillRect(0, 0, width, topBarHeight);
+
+        // Botões de janela estilo macOS
+        g.setColor(new Color(0xff, 0x5f, 0x56)); // Fechar
+        g.fillOval(20, 14, 12, 12);
+        g.setColor(new Color(0xff, 0xbd, 0x2e)); // Minimizar
+        g.fillOval(40, 14, 12, 12);
+        g.setColor(new Color(0x27, 0xc9, 0x3f)); // Maximizar
+        g.fillOval(60, 14, 12, 12);
+
+        // Título da janela
+        g.setColor(new Color(0x9a, 0x9a, 0xa6));
+        g.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        String title = "Jogo de Tabuleiro - Evidência " + name + ".png";
+        int titleWidth = g.getFontMetrics().stringWidth(title);
+        g.drawString(title, (width - titleWidth) / 2, 22);
+
+        // Fonte monospaced para o terminal
+        g.setFont(new Font("Consolas", Font.PLAIN, 14));
+        int startX = paddingX;
+        int startY = topBarHeight + paddingY + 12;
+
+        for (int i = 0; i < numLines; i++) {
+            String line = lines.get(i);
+            drawAnsiLine(g, line, startX, startY + i * charHeight);
+        }
+
+        g.dispose();
+
+        try {
+            File outputDir = new File("screenshots");
+            if (!outputDir.exists()) {
+                outputDir.mkdirs();
+            }
+            File outFile = new File(outputDir, name + ".png");
+            ImageIO.write(img, "PNG", outFile);
+
+            // Tenta salvar no diretório do Gemini se ele estiver ativo
+            File geminiDir = new File("C:\\Users\\dudue\\.gemini\\antigravity\\brain\\a173e005-48a6-4b3e-81c2-1c13c0fd4a6f");
+            if (geminiDir.exists()) {
+                File geminiFile = new File(geminiDir, name + ".png");
+                ImageIO.write(img, "PNG", geminiFile);
+            }
+        } catch (IOException e) {
+            System.err.println("[Erro Renderizador] Falha ao salvar imagem " + name + ": " + e.getMessage());
+        }
+    }
+
+    private static void drawAnsiLine(Graphics2D g, String line, int x, int y) {
+        int curX = x;
+        Color curColor = new Color(0xf8, 0xf8, 0xf2); // Padrão
+        g.setColor(curColor);
+        
+        int len = line.length();
+        StringBuilder currentSegment = new StringBuilder();
+        
+        for (int i = 0; i < len; i++) {
+            char c = line.charAt(i);
+            if (c == '\u001B' && i + 1 < len && line.charAt(i + 1) == '[') {
+                if (currentSegment.length() > 0) {
+                    String seg = currentSegment.toString();
+                    g.drawString(seg, curX, y);
+                    curX += g.getFontMetrics().stringWidth(seg);
+                    currentSegment.setLength(0);
+                }
+                
+                int start = i + 2;
+                int end = start;
+                while (end < len && line.charAt(end) != 'm') {
+                    end++;
+                }
+                if (end < len) {
+                    String codeStr = line.substring(start, end);
+                    String[] codes = codeStr.split(";");
+                    for (String code : codes) {
+                        if (code.equals("0")) {
+                            curColor = new Color(0xf8, 0xf8, 0xf2);
+                        } else if (code.equals("31")) {
+                            curColor = new Color(0xff, 0x55, 0x55); // Vermelho
+                        } else if (code.equals("32")) {
+                            curColor = new Color(0x50, 0xfa, 0x7b); // Verde
+                        } else if (code.equals("33")) {
+                            curColor = new Color(0xf1, 0xfa, 0x8c); // Amarelo
+                        } else if (code.equals("34")) {
+                            curColor = new Color(0xbd, 0x93, 0xf9); // Roxo/Azul
+                        } else if (code.equals("35")) {
+                            curColor = new Color(0xff, 0x79, 0xc6); // Rosa
+                        } else if (code.equals("36")) {
+                            curColor = new Color(0x8b, 0xe9, 0xfd); // Ciano
+                        } else if (code.equals("37")) {
+                            curColor = new Color(0xff, 0xff, 0xff); // Branco
+                        }
+                    }
+                    g.setColor(curColor);
+                    i = end;
+                    continue;
+                }
+            }
+            currentSegment.append(c);
+        }
+        
+        if (currentSegment.length() > 0) {
+            String seg = currentSegment.toString();
+            g.drawString(seg, curX, y);
+        }
     }
 }

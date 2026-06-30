@@ -36,19 +36,19 @@ Para gerenciar a lista de jogadores ativos e a coleção de propriedades adquiri
 
 #### [S1] Cadastro de Jogador
 A tela abaixo demonstra o cadastro de um jogador informando seu nome e selecionando o seu personagem e habilidade passiva correspondente.
-![S1 - Cadastro de Jogador](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S1.png)
+![S1 - Cadastro de Jogador](screenshots/S1.png)
 
 #### [S2] Listagem de Jogadores
 Abaixo são listados todos os jogadores cadastrados no sistema e seus atributos iniciais antes do início da partida.
-![S2 - Listagem de Jogadores](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S2.png)
+![S2 - Listagem de Jogadores](screenshots/S2.png)
 
 #### [S3] Cadastro de Propriedade
 Cadastro de um imóvel personalizado na base do jogo, especificando nome, valor de compra e aluguel base.
-![S3 - Cadastro de Propriedade](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S3.png)
+![S3 - Cadastro de Propriedade](screenshots/S3.png)
 
 #### [S4] Listagem de Propriedades
 Abaixo são listadas todas as propriedades cadastradas no jogo antes do início, detalhando seus atributos de custo e aluguel inicial.
-![S4 - Listagem de Propriedades](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S4.png)
+![S4 - Listagem de Propriedades](screenshots/S4.png)
 
 ---
 
@@ -63,7 +63,7 @@ O tabuleiro do jogo é representado por uma [`CircularDoublyLinkedList`](file://
 
 #### [S5] Tabuleiro Criado
 Exibição das casas do tabuleiro em ordem, provando que a última casa (Mansão dos Jardins) está circularmente conectada de volta à primeira casa (Início).
-![S5 - Tabuleiro Criado](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S5.png)
+![S5 - Tabuleiro Criado](screenshots/S5.png)
 
 ---
 
@@ -77,7 +77,7 @@ A pilha é a estrutura ideal para modelar um baralho de cartas de jogo, pois as 
 
 #### [S6] Carta de Sorte/Revés
 Abaixo vemos a sequência de saque de uma carta de Sorte/Revés e a aplicação de seu efeito de retrocesso no jogador Bob.
-![S6 - Carta de Sorte/Revés](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S6.png)
+![S6 - Carta de Sorte/Revés](screenshots/S6.png)
 
 ---
 
@@ -90,15 +90,15 @@ A estrutura de dados Fila ([`Queue.java`](file:///c:/Users/dudue/Documents/ULBRA
 
 #### [S7] Prisão — Entrada na Fila
 Jogador sendo enviado à prisão pela carta de Sorte/Revés e sendo inserido na fila de espera.
-![S7 - Entrada na Prisão](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S7.png)
+![S7 - Entrada na Prisão](screenshots/S7.png)
 
 #### [S8] Prisão — Tentativa de Saída
 Abaixo vemos o jogador Carlos utilizando a sua isenção de fiança como Advogado para sair da prisão de graça e rolar os dados na mesma rodada.
-![S8 - Saída da Prisão](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S8.png)
+![S8 - Saída da Prisão](screenshots/S8.png)
 
 #### [S9] Histórico de Rodadas
 Exibição do histórico de rodadas armazenado na fila circular, demonstrando as ações recentes dos turnos.
-![S9 - Histórico de Rodadas](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S9.png)
+![S9 - Histórico de Rodadas](screenshots/S9.png)
 
 ---
 
@@ -113,7 +113,7 @@ As habilidades passivas foram implementadas como flags e modificadores específi
 
 #### [S10] Habilidade Passiva Ativa
 O print exibe a passiva do Construtor aumentando o aluguel base de Barra da Tijuca em 15% e o Negociante Bob recebendo um desconto de 10% sobre o aluguel a pagar.
-![S10 - Habilidades Passivas Ativas](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S10.png)
+![S10 - Habilidades Passivas Ativas](screenshots/S10.png)
 
 ---
 
@@ -124,11 +124,11 @@ O print exibe a passiva do Construtor aumentando o aluguel base de Barra da Tiju
 
 #### [S11] Passagem pelo Início
 Jogador avançando no tabuleiro e recebendo o bônus salarial de Especulador ao cruzar a casa Início.
-![S11 - Passagem pelo Início](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S11.png)
+![S11 - Passagem pelo Início](screenshots/S11.png)
 
 #### [S12] Retrocesso passando pelo Início
 Jogador retrocedendo casas pela carta "Erro de Rota" e cruzando a casa Início de marcha ré sem receber salário.
-![S12 - Retrocesso sem Salário](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S12.png)
+![S12 - Retrocesso sem Salário](screenshots/S12.png)
 
 ---
 
@@ -136,23 +136,23 @@ Jogador retrocedendo casas pela carta "Erro de Rota" e cruzando a casa Início d
 
 #### [S13] Compra de Propriedade
 Exibe a decisão de compra de propriedade ao parar em uma casa sem dono, debitando o valor e registrando o imóvel.
-![S13 - Compra de Propriedade](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S13.png)
+![S13 - Compra de Propriedade](screenshots/S13.png)
 
 #### [S14] Pagamento de Aluguel
 Transação financeira entre jogadores com multiplicador de demanda acumulado visível.
-![S14 - Pagamento de Aluguel](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S14.png)
+![S14 - Pagamento de Aluguel](screenshots/S14.png)
 
 #### [S15] Leilão
 O processo interativo de lances entre os jogadores por um imóvel sem proprietário e a definição do comprador vencedor.
-![S15 - Leilão de Propriedade](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S15.png)
+![S15 - Leilão de Propriedade](screenshots/S15.png)
 
 #### [S16] Falência
 O jogador Bob sendo declarado falido após ficar com saldo negativo e não possuir propriedades para vender. Seus imóveis são liberados para o pool comum.
-![S16 - Falência de Jogador](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S16.png)
+![S16 - Falência de Jogador](screenshots/S16.png)
 
 #### [S17] Encerramento da Partida
 Tela de fim de jogo exibindo o relatório final contendo classificação dos jogadores por patrimônio líquido, estatísticas e histórico de rodadas.
-![S17 - Fim de Jogo](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S17.png)
+![S17 - Fim de Jogo](screenshots/S17.png)
 
 ---
 
@@ -160,12 +160,12 @@ Tela de fim de jogo exibindo o relatório final contendo classificação dos jog
 
 #### [S18] Ranking com Árvore Binária de Busca (BST)
 No encerramento da partida, todos os jogadores são inseridos em uma Árvore Binária de Busca ([`BST.java`](file:///c:/Users/dudue/Documents/ULBRA/algoritimos/AS/src/datastructures/BST.java)) cuja chave de comparação é o patrimônio total de cada um. O percurso in-order decrescente (Direita -> Raiz -> Esquerda) gera o ranking final. A estrutura hierárquica da árvore é exibida em formato ASCII provando o uso real da BST.
-![S18 - Ranking via BST](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S18.png)
+![S18 - Ranking via BST](screenshots/S18.png)
 
 #### [S19] Negociação entre Jogadores (Troca Comercial)
 Permite a proposta de trocas comerciais voluntárias de dinheiro e propriedades entre os jogadores.
-![S19 - Negociação Comercial](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S19.png)
+![S19 - Negociação Comercial](screenshots/S19.png)
 
 #### [S20] Hipoteca de Imóveis
 Possibilidade de hipotecar um imóvel para obter 50% de seu valor de compra. Imóveis hipotecados têm aluguel zerado temporariamente. O proprietário pode quitar a hipoteca posteriormente pagando o valor mais 10% de juros.
-![S20 - Hipoteca de Imóvel](file:///C:/Users/dudue/.gemini/antigravity/brain/f0d04e4d-db7d-4fd3-8320-41db79fd60f9/S20.png)
+![S20 - Hipoteca de Imóvel](screenshots/S20.png)
