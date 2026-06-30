@@ -382,17 +382,8 @@ public class Simulation {
     }
 
     private static void capture(String name) throws Exception {
-        // Renderiza a imagem programática perfeita
+        // Renderiza a imagem programática perfeita do console (sem capturar a área de trabalho do PC)
         renderTerminalImage(name);
-
-        // Executa o script do PowerShell como fallback secundário
-        try {
-            ProcessBuilder pb = new ProcessBuilder("powershell.exe", "-ExecutionPolicy", "Bypass", "-File", "take_screenshot.ps1", name);
-            Process p = pb.start();
-            p.waitFor();
-        } catch (Exception e) {
-            // Ignora silenciosamente falhas no screenshot do OS em ambientes sem interface
-        }
     }
 
     private static void renderTerminalImage(String name) {
